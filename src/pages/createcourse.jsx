@@ -13,7 +13,7 @@ const CreateCourse = () => {
         <nav className="flex flex-col space-y-6 opacity-90">
           <a href="#" className="hover:underline">Dashboard</a>
           <a href="#" className="font-bold underline">Courses</a>
-          <a href="#" className="hover:underline">Image Uploads</a>
+          <a href="#" className="hover:underline">Manage Uploads</a>
           <a href="#" className="hover:underline">Profile</a>
         </nav>
       </aside>

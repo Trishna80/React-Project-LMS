@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const KUHomePage = () => {
   const bgImageUrl = "https://cpec.ku.edu.np/media/courses/KUSOED.JPG.jpg"; 

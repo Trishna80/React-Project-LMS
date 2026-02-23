@@ -1,79 +1,62 @@
 import React from 'react';
-import Sidebar from './Sidebar'; // Importing the rewritten sidebar we just created
+import { sidebarMenus } from './sidebarmenu';
 
-const CreateCoursePage = () => {
+export default function Sidebar({ menuType = 'student', onMenuClick, activeLabel }) {
+  const menuItems = sidebarMenus[menuType] || sidebarMenus.student;
+
   return (
-    <div className="flex min-h-screen bg-[#f3f4f6]">
-      {/* 1. Sidebar - using your specific component and menu type */}
-      <Sidebar menuType="admin" />
+    <div className="w-64 bg-[#0015ff] text-white flex flex-col min-h-screen shadow-2xl z-20 shrink-0">
+      {/* Logo Section */}
+      <div className="p-8 mb-4">
+        <h2 className="text-2xl font-bold tracking-tighter">LMS</h2>
+        <div className="h-1 w-8 bg-blue-400 rounded-full mt-1"></div>
+      </div>
 
-      {/* 2. Main Content Area */}
-      <main className="flex-1">
-        
-        {/* Top Header/Privacy Bar */}
-        <div className="w-full flex justify-end items-center px-10 py-4 text-xs text-gray-400 gap-4">
-          <p>A Firefox Terms of Use and updated our Privacy Notice. Please take a moment to review and accept.</p>
-          <button className="bg-[#0025cc] text-white px-5 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-800 transition-colors">
-            Accept
-          </button>
-        </div>
+      {/* Menu Links */}
+      <nav className="flex-1 px-4 space-y-2">
+        {menuItems.map((item, index) => {
+          const Icon = item.icon;
+          
+          // CRITICAL: Ensure this matches the string in StudentDashboard.jsx switch case
+          const isActive = activeLabel === item.label;
 
-        {/* Dashboard Content */}
-        <div className="px-12 py-6">
-          <h1 className="text-3xl font-bold text-gray-800 mb-8">Create Course</h1>
-
-          {/* Form Card */}
-          <div className="bg-white rounded-[2rem] shadow-sm p-10 max-w-5xl border border-gray-100">
-            <h2 className="text-xl font-bold text-gray-700 mb-8">New Course</h2>
-            
-            <div className="space-y-6">
-              {/* Course Title Input */}
-              <div>
-                <input 
-                  type="text" 
-                  placeholder="Course Title" 
-                  className="w-full p-4 bg-[#e8eaed] rounded-xl border-none focus:ring-2 focus:ring-blue-600 outline-none text-gray-700 placeholder-gray-500 transition-all"
-                />
-              </div>
-              
-              {/* Course Code Input */}
-              <div>
-                <input 
-                  type="text" 
-                  placeholder="Course Code (e.g. CS301)" 
-                  className="w-full p-4 bg-[#e8eaed] rounded-xl border-none focus:ring-2 focus:ring-blue-600 outline-none text-gray-700 placeholder-gray-500 transition-all"
-                />
-              </div>
-              
-              {/* Course Description TextArea */}
-              <div>
-                <textarea 
-                  placeholder="Course Description" 
-                  rows="6"
-                  className="w-full p-4 bg-[#e8eaed] rounded-xl border-none focus:ring-2 focus:ring-blue-600 outline-none text-gray-700 placeholder-gray-500 transition-all resize-none"
-                />
-              </div>
-
-              {/* Action Button */}
-              <div className="pt-2">
-                <button className="bg-[#0015ff] text-white px-10 py-3.5 rounded-2xl font-bold text-lg hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all active:scale-95">
-                  Create Course
-                </button>
-              </div>
+          return (
+            <div
+              key={index}
+              onClick={() => {
+                console.log("Sidebar sending label:", item.label); // Debugging line
+                onMenuClick(item.label);
+              }}
+              className={`flex items-center gap-4 px-4 py-3 rounded-2xl cursor-pointer transition-all duration-300 group ${
+                isActive 
+                  ? "bg-white text-[#0015ff] shadow-lg shadow-blue-900/20" 
+                  : "hover:bg-white/10 text-white/80 hover:text-white"
+              }`}
+            >
+              <Icon 
+                size={20} 
+                className={isActive ? "text-[#0015ff]" : "opacity-70 group-hover:opacity-100"} 
+              />
+              <span className="font-bold text-sm tracking-wide">
+                {item.label}
+              </span>
             </div>
+          );
+        })}
+      </nav>
+
+      {/* User Footer */}
+      <div className="p-6 border-t border-white/10">
+        <div className="flex items-center gap-3 px-2 text-white/70">
+          <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-xs shadow-inner">
+            D
           </div>
-
-          {/* My Courses Section */}
-          <section className="mt-16">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">My Courses</h2>
-            <div className="p-8 border-2 border-dashed border-gray-300 rounded-3xl text-center text-gray-500 font-medium">
-              No courses created yet
-            </div>
-          </section>
+          <div className="flex flex-col">
+            <span className="text-xs font-bold tracking-tight text-white">Demo Student</span>
+            <span className="text-[10px] opacity-50">Student Account</span>
+          </div>
         </div>
-      </main>
+      </div>
     </div>
   );
-};
-
-export default CreateCoursePage;
+}
